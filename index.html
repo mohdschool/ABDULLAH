@@ -12,6 +12,20 @@
             background: linear-gradient(to right, #eef2f3, #2E7D32);
             font-family: 'Tajawal', sans-serif;
         }
+        .countdown {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #8B5A2B;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .video-container {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .video-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 0px 20px rgba(46, 125, 50, 0.4);
+        }
         .glow {
             box-shadow: 0px 0px 15px rgba(139, 90, 43, 0.4);
         }
@@ -22,45 +36,53 @@
             0% { filter: drop-shadow(0 0 5px rgba(139, 90, 43, 0.3)); }
             100% { filter: drop-shadow(0 0 20px rgba(139, 90, 43, 0.7)); }
         }
-        .animated-button {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .animated-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0px 0px 20px rgba(139, 90, 43, 0.6);
-        }
-        .countdown {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #8B5A2B;
-        }
-        .video-container {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .video-container:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 0px 20px rgba(46, 125, 50, 0.4);
-        }
     </style>
+    <script>
+        function updateCountdown() {
+            const startDate = new Date("February 17, 2025 00:00:00").getTime();
+            const endDate = new Date("February 18, 2025 23:59:59").getTime();
+            const now = new Date().getTime();
+            let message = "";
+            
+            if (now < startDate) {
+                const timeLeft = startDate - now;
+                message = "⏳ يبدأ الملتقى خلال: " + formatTime(timeLeft);
+            } else if (now >= startDate && now <= endDate) {
+                const timeLeft = endDate - now;
+                message = "🎉 الملتقى مستمر! ينتهي خلال: " + formatTime(timeLeft);
+            } else {
+                message = "🚀 انتهى ملتقى الابتكار 2025! شكرًا لمشاركتكم.";
+            }
+            
+            document.getElementById("countdown").innerHTML = message;
+        }
+
+        function formatTime(ms) {
+            const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+            return `${days} يوم و ${hours} ساعة و ${minutes} دقيقة`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        window.onload = updateCountdown;
+    </script>
 </head>
 <body class="text-gray-900">
     <div class="container mx-auto p-6">
         <div class="text-center bg-white shadow-lg rounded-lg p-8 relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-r from-green-700 to-brown-500 opacity-20"></div>
-            <div class="relative z-10">
-                <div class="flex justify-center">
-                    <div class="bg-white p-3 rounded-full shadow-lg glow">
-                        <img src="https://i.top4top.io/p_33302ii8b1.png" alt="شعار الملتقى" class="w-48 rounded-lg logo-glow">
-                    </div>
+            <div class="flex justify-center">
+                <div class="bg-white p-3 rounded-full shadow-lg glow">
+                    <img src="https://i.top4top.io/p_33302ii8b1.png" alt="شعار الملتقى" class="w-48 rounded-lg logo-glow">
                 </div>
-                <h1 class="text-5xl font-extrabold mt-6 text-green-700">ملتقى الابتكار 2025</h1>
-                <h2 class="text-2xl text-brown-800 mt-2">تحت شعار "الظاهرة تبتكر"</h2>
-                <p class="mt-4 text-lg text-gray-800">تنظيم من فرع الغرفة بمحافظة الظاهرة ممثلًا بلجنة التعليم والابتكار وبالتعاون مع مجالس أولياء الأمور</p>
-                <p class="mt-4 text-xl font-semibold text-gray-700">📅 الفترة: ١٧-١٨ فبراير ٢٠٢٥م</p>
-                <p id="countdown" class="countdown mt-4"></p>
             </div>
+            <h1 class="text-5xl font-extrabold mt-6 text-green-700">ملتقى الابتكار 2025</h1>
+            <h2 class="text-2xl text-brown-800 mt-2">تحت شعار "الظاهرة تبتكر"</h2>
+            <p class="mt-4 text-lg text-gray-800">تنظيم من فرع الغرفة بمحافظة الظاهرة ممثلًا بلجنة التعليم والابتكار وبالتعاون مع مجالس أولياء الأمور</p>
+            <p class="mt-4 text-xl font-semibold text-gray-700">📅 الفترة: ١٧-١٨ فبراير ٢٠٢٥م</p>
+            <p id="countdown" class="countdown"></p>
         </div>
-        
+
         <div class="mt-10 bg-white shadow-lg rounded-lg p-6 text-center">
             <h3 class="text-2xl font-bold text-green-700">🎯 الفئات المستهدفة</h3>
             <ul class="mt-6 space-y-3 text-lg text-gray-700">
@@ -81,19 +103,16 @@
                 <div class="rounded-lg overflow-hidden shadow-lg video-container">
                     <video controls class="w-full rounded-lg">
                         <source src="https://c.top4top.io/m_33304x3251.mp4" type="video/mp4">
-                        متصفحك لا يدعم تشغيل الفيديو.
                     </video>
                 </div>
                 <div class="rounded-lg overflow-hidden shadow-lg video-container">
                     <video controls class="w-full rounded-lg">
                         <source src="https://l.top4top.io/m_3330ivy951.mp4" type="video/mp4">
-                        متصفحك لا يدعم تشغيل الفيديو.
                     </video>
                 </div>
                 <div class="rounded-lg overflow-hidden shadow-lg video-container">
                     <video controls class="w-full rounded-lg">
                         <source src="https://e.top4top.io/m_3330zr01t1.mp4" type="video/mp4">
-                        متصفحك لا يدعم تشغيل الفيديو.
                     </video>
                 </div>
             </div>
