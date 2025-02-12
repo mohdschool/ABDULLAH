@@ -12,29 +12,17 @@
             background: linear-gradient(to right, #eef2f3, #2E7D32);
             font-family: 'Tajawal', sans-serif;
         }
-        .countdown {
-            font-size: 1.5rem;
+        .countdown, .visitor-counter {
+            font-size: 1.6rem;
             font-weight: bold;
-            color: #8B5A2B;
             text-align: center;
             margin-top: 10px;
+            animation: fadeIn 2s ease-in-out;
         }
-        .visitor-counter {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #2E7D32;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .video-container {
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .video-container:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 0px 20px rgba(46, 125, 50, 0.4);
-        }
+        .countdown { color: #8B5A2B; }
+        .visitor-counter { color: #2E7D32; }
         .glow {
-            box-shadow: 0px 0px 15px rgba(139, 90, 43, 0.4);
+            box-shadow: 0px 0px 20px rgba(139, 90, 43, 0.5);
         }
         .logo-glow {
             animation: glow-animation 2s infinite alternate;
@@ -43,25 +31,75 @@
             0% { filter: drop-shadow(0 0 5px rgba(139, 90, 43, 0.3)); }
             100% { filter: drop-shadow(0 0 20px rgba(139, 90, 43, 0.7)); }
         }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .gradient-button {
+            background: linear-gradient(45deg, #2E7D32, #8B5A2B);
+            color: white;
+            border: none;
+            transition: background 0.3s ease;
+        }
+        .gradient-button:hover {
+            background: linear-gradient(45deg, #8B5A2B, #2E7D32);
+        }
     </style>
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAn0OJ2M_cAFuHcNGGwW6NPZ_pYGL1-C-8",
+            authDomain: "innovation-2025.firebaseapp.com",
+            databaseURL: "https://innovation-2025-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "innovation-2025",
+            storageBucket: "innovation-2025.firebasestorage.app",
+            messagingSenderId: "857079175824",
+            appId: "1:857079175824:web:2e4cbda95005448a42d615"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+        const auth = getAuth();
+
+        function updateVisitorCount() {
+            const countRef = ref(db, "visitorCount");
+            get(countRef).then(snapshot => {
+                let count = snapshot.exists() ? snapshot.val() + 1 : 1;
+                set(countRef, count);
+                document.getElementById("visitor-counter").innerText = `👥 عدد زوار الموقع: ${count}`;
+            });
+        }
+
+        signInAnonymously(auth).then(updateVisitorCount);
+
         function updateCountdown() {
             const startDate = new Date("February 17, 2025 00:00:00").getTime();
-            const endDate = new Date("February 18, 2025 23:59:59").getTime();
             const now = new Date().getTime();
-            let message = "";
+            const timeLeft = startDate - now;
             
-            if (now < startDate) {
-                const timeLeft = startDate - now;
-                message = "⏳ يبدأ الملتقى خلال: " + formatTime(timeLeft);
-            } else if (now >= startDate && now <= endDate) {
-                const timeLeft = endDate - now;
-                message = "🎉 الملتقى مستمر! ينتهي خلال: " + formatTime(timeLeft);
+            if (timeLeft > 0) {
+                document.getElementById("countdown").innerHTML = `⏳ يبدأ الملتقى خلال: ${formatTime(timeLeft)}`;
             } else {
-                message = "🚀 انتهى ملتقى الابتكار 2025! شكرًا لمشاركتكم.";
+                document.getElementById("countdown").innerHTML = "🎉 الملتقى مستمر الآن!";
             }
-            
-            document.getElementById("countdown").innerHTML = message;
         }
 
         function formatTime(ms) {
@@ -71,81 +109,52 @@
             return `${days} يوم و ${hours} ساعة و ${minutes} دقيقة`;
         }
 
-        function updateVisitorCount() {
-            let count = localStorage.getItem("visitorCount") || 0;
-            count++;
-            localStorage.setItem("visitorCount", count);
-            document.getElementById("visitor-counter").innerText = `👥 عدد زوار الموقع: ${count}`;
-        }
-
         setInterval(updateCountdown, 1000);
-        window.onload = function() {
-            updateCountdown();
-            updateVisitorCount();
-        };
+        window.onload = updateCountdown;
     </script>
 </head>
 <body class="text-gray-900">
-    <div class="container mx-auto p-6">
-        <div class="text-center bg-white shadow-lg rounded-lg p-8 relative overflow-hidden">
-            <div class="flex justify-center">
-                <div class="bg-white p-3 rounded-full shadow-lg glow">
-                    <img src="https://i.top4top.io/p_33302ii8b1.png" alt="شعار الملتقى" class="w-48 rounded-lg logo-glow">
-                </div>
-            </div>
-            <h1 class="text-5xl font-extrabold mt-6 text-green-700">ملتقى الابتكار 2025</h1>
-            <h2 class="text-2xl text-brown-800 mt-2">تحت شعار "الظاهرة تبتكر"</h2>
-            <p class="mt-4 text-lg text-gray-800">تنظيم من فرع الغرفة بمحافظة الظاهرة ممثلًا بلجنة التعليم والابتكار وبالتعاون مع مجالس أولياء الأمور</p>
-            <p class="mt-4 text-xl font-semibold text-gray-700">📅 الفترة: ١٧-١٨ فبراير ٢٠٢٥م</p>
-            <p id="countdown" class="countdown"></p>
-
-            <div class="visitor-counter" id="visitor-counter"></div>
-
-            <div class="mt-6">
-                <a href="https://www.google.com/maps/dir//23.2261,56.5123" target="_blank" 
-                   class="mt-4 bg-green-700 text-white px-4 py-2 rounded-lg inline-block">
-                   📍 اضغط هنا للوصول إلى قاعة المهلب بن أبي صفرة، عبري
-                </a>
-            </div>
-
-   <div class="mt-10 bg-yellow-100 p-6 rounded-lg shadow-md text-center">
-                <h3 class="text-2xl font-bold text-yellow-600">🎉 لا تفوت الفرصة!</h3>
-                <p class="mt-4 text-lg text-gray-800">📢 سجل حضورك وادخل السحب على <span class="font-bold text-red-600">3 جوائز قيّمة</span>!</p>
-                <p class="mt-2 text-lg text-gray-800">🏆 قيمة كل جائزة: <span class="font-bold text-green-700">50 ريال عماني</span>!</p>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKyI5eClzrgF8yVmkx_AWfrrZajUO9-HNEz3FOUOqYxCretA/viewform?usp=header" 
-                   target="_blank" 
-                   class="mt-6 inline-block bg-yellow-600 text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md">
-                   🎁 <span class="font-bold">سجل الآن وادخل السحب</span> 🎟️
-                </a>
+    <div class="container mx-auto p-6 text-center bg-white shadow-lg rounded-lg p-8 relative">
+        <div class="flex justify-center">
+            <div class="bg-white p-3 rounded-full shadow-lg glow hover-effect">
+                <img src="https://i.top4top.io/p_33302ii8b1.png" alt="شعار الملتقى" class="w-48 rounded-lg logo-glow">
             </div>
         </div>
+        <h1 class="text-5xl font-extrabold mt-6 text-green-700 animate-pulse">ملتقى الابتكار 2025</h1>
+        <h2 class="text-2xl text-brown-800 mt-2">تحت شعار "الظاهرة تبتكر"</h2>
+        <p class="mt-2 text-lg text-gray-700">تنظيم من فرع الغرفة بمحافظة الظاهرة ممثلاً بلجنة التعليم والابتكار وبالتعاون مع مجالس أولياء الأمور</p>
+        <p class="mt-4 text-lg text-gray-800">📅 الفترة: ١٧-١٨ فبراير ٢٠٢٥م</p>
+        <p id="countdown" class="countdown"></p>
+        <p id="visitor-counter" class="visitor-counter"></p>
 
-        <div class="mt-10">
-            <h3 class="text-3xl font-bold text-center text-green-700">🎥 فيديوهات الملتقى</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6">
-                <div class="rounded-lg overflow-hidden shadow-lg video-container">
-                    <video controls class="w-full rounded-lg">
-                        <source src="https://c.top4top.io/m_33304x3251.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="rounded-lg overflow-hidden shadow-lg video-container">
-                    <video controls class="w-full rounded-lg">
-                        <source src="https://l.top4top.io/m_3330ivy951.mp4" type="video/mp4">
-                    </video>
-                </div>
-                <div class="rounded-lg overflow-hidden shadow-lg video-container">
-                    <video controls class="w-full rounded-lg">
-                        <source src="https://e.top4top.io/m_3330zr01t1.mp4" type="video/mp4">
-                    </video>
-                </div>
-            </div>
+        <!-- العبارة التشويقية -->
+        <p class="mt-6 text-2xl font-bold text-green-700">
+            🎉 لا تفوت الفرصة! سجل حضورك وادخل السحب على <span class="text-brown-800">3 جوائز قيمة</span> قيمة كل جائزة <span class="text-brown-800">50 ريال عماني</span>!
+        </p>
+
+        <!-- زر التسجيل -->
+        <div class="mt-6">
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfKyI5eClzrgF8yVmkx_AWfrrZajUO9-HNEz3FOUOqYxCretA/viewform?usp=header" target="_blank"
+               class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
+               🎁 <span class="font-bold">سجل الآن وادخل السحب!</span>
+            </a>
         </div>
 
-        <div class="mt-10 text-center">
-            <h3 class="text-2xl font-bold text-green-700">📞 تواصل معنا</h3>
-            <p class="mt-4 text-lg text-gray-700">📞 الهاتف: <a href="tel:91253835" class="text-green-600 hover:text-green-800">91253835</a></p>
-            <p class="text-lg text-gray-700">📧 البريد الإلكتروني: <a href="mailto:Ibri@omanchamber.om" class="text-green-600 hover:text-green-800">Ibri@omanchamber.om</a></p>
+        <div class="mt-8">
+            <a href="https://www.google.com/maps/dir//23.2261,56.5123" target="_blank" 
+               class="mt-6 bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
+               📍 اضغط هنا لرؤية موقع الملتقى - قاعة المهلب بن أبي صفرة، عبري
+            </a>
         </div>
+
+        <h3 class="text-3xl font-bold text-green-700 mt-10">🎥 فيديوهات الملتقى</h3>
+        <video controls class="w-full mt-6 rounded-lg shadow-lg hover-effect">
+            <source src="https://c.top4top.io/m_33304x3251.mp4" type="video/mp4">
+        </video>
+
+        <h3 class="text-2xl font-bold text-green-700 mt-10">📞 تواصل معنا</h3>
+        <p class="mt-4 text-lg text-gray-700">📞 الهاتف: <a href="tel:91253835" class="text-green-600 hover:text-green-800">91253835</a></p>
+        <p class="text-lg text-gray-700">📧 البريد الإلكتروني: <a href="mailto:Ibri@omanchamber.om" class="text-green-600 hover:text-green-800">Ibri@omanchamber.om</a></p>
     </div>
 </body>
 </html>
