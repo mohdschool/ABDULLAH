@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-         /* خلفية ديناميكية مع زخارف */
+        /* خلفية ديناميكية مع زخارف */
         body {
             background: linear-gradient(-45deg, #2E7D32, #8B5A2B, #eef2f3, #2E7D32);
             background-size: 400% 400%;
@@ -191,7 +191,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-
     </style>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
@@ -222,54 +221,52 @@
         }
 
         signInAnonymously(auth).then(updateVisitorCount);
+function updateCountdown() {
+    const now = new Date();
+    const today8AM = new Date(now);
+    today8AM.setHours(8, 0, 0, 0); // الساعة 8 صباحًا اليوم
 
-        function updateCountdown() {
-            const now = new Date();
-            const today8AM = new Date(now);
-            today8AM.setHours(8, 0, 0, 0); // الساعة 8 صباحًا اليوم
+    const dayAfterTomorrow1PM = new Date(now);
+    dayAfterTomorrow1PM.setDate(now.getDate() + 2); // بعد غد
+    dayAfterTomorrow1PM.setHours(13, 0, 0, 0); // الساعة 1 ظهرًا بعد الغد
 
-            const dayAfterTomorrow1PM = new Date(now);
-            dayAfterTomorrow1PM.setDate(now.getDate() + 2); // بعد غد
-            dayAfterTomorrow1PM.setHours(13, 0, 0, 0); // الساعة 1 ظهرًا بعد الغد
+    let timeLeft;
+    let message;
 
-            let timeLeft;
-            let message;
+    if (now < today8AM) {
+        // العد التنازلي حتى بداية الملتقى
+        timeLeft = today8AM - now;
+        message = `⏳ يبدأ الملتقى خلال: ${formatTime(timeLeft)}`;
+    } else if (now < dayAfterTomorrow1PM) {
+        // العد التنازلي حتى نهاية الملتقى
+        timeLeft = dayAfterTomorrow1PM - now;
+        message = `⏳ الوقت المتبقي للملتقى: ${formatTime(timeLeft)}`;
+    } else {
+        // الملتقى انتهى
+        message = "🎉 الملتقى انتهى! شكرًا لحضوركم.";
+    }
 
-            if (now < today8AM) {
-                // العد التنازلي حتى بداية الملتقى
-                timeLeft = today8AM - now;
-                message = `⏳ يبدأ الملتقى خلال: ${formatTime(timeLeft)}`;
-            } else if (now < dayAfterTomorrow1PM) {
-                // العد التنازلي حتى نهاية الملتقى
-                timeLeft = dayAfterTomorrow1PM - now;
-                message = `⏳ الوقت المتبقي للملتقى: ${formatTime(timeLeft)}`;
-            } else {
-                // الملتقى انتهى
-                message = "🎉 الملتقى انتهى! شكرًا لحضوركم.";
-            }
+    document.getElementById("countdown").innerHTML = message;
+}
 
-            document.getElementById("countdown").innerHTML = message;
-        }
+function formatTime(ms) {
+    const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((ms % (1000 * 60)) / 1000);
 
-        function formatTime(ms) {
-            const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((ms % (1000 * 60)) / 1000);
+    let result = "";
+    if (days > 0) result += `${days} يوم `;
+    if (hours > 0) result += `${hours} ساعة `;
+    if (minutes > 0) result += `${minutes} دقيقة `;
+    if (seconds > 0) result += `${seconds} ثانية`;
 
-            let result = "";
-            if (days > 0) result += `${days} يوم `;
-            if (hours > 0) result += `${hours} ساعة `;
-            if (minutes > 0) result += `${minutes} دقيقة `;
-            if (seconds > 0) result += `${seconds} ثانية`;
+    return result.trim();
+}
 
-            return result.trim();
-        }
-
-        setInterval(updateCountdown, 1000);
-        window.onload = updateCountdown;
-
-      function loadProjects() {
+setInterval(updateCountdown, 1000);
+window.onload = updateCountdown;
+     function loadProjects() {
     console.log("جاري تحميل المشاريع...");
     document.getElementById("projectsTable").innerHTML = "<tr><td colspan='4'>جاري تحميل البيانات...</td></tr>";
 
@@ -320,7 +317,6 @@
             alert("حدث خطأ أثناء تحميل البيانات. يرجى المحاولة مرة أخرى.");
         });
 }
-
         function goBack() {
             document.getElementById("projectsTable").classList.remove("show");
             document.getElementById("backButton").classList.remove("show");
@@ -380,8 +376,7 @@
         <h3 class="text-3xl font-bold text-green-700 mt-10 text-shadow">  </h3>
         <div class="mt-6">
             <a href="https://www.instagram.com/reel/DGGjSkQswrv/?igsh=Z2JjdHprdWl5ZzI0" target="_blank"
-               class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
-               ▶️ <               class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
+                       class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
                ▶️ <span class="font-bold">شاهد الفيديو على الإنستجرام</span>
             </a>
         </div>
@@ -391,14 +386,14 @@
         <p class="text-lg text-gray-700">📧 البريد الإلكتروني: <a href="mailto:Ibri@omanchamber.om" class="text-green-600 hover:text-green-800">Ibri@omanchamber.om</a></p>
 
         <!-- جدول المشاريع والابتكارات -->
-        <table id="projectsTable" class="w-full mt-6">
-            <thead id="tableHeader" class="bg-green-700 text-white">
-                <!-- سيتم ملء رأس الجدول ديناميكيًا -->
-            </thead>
-            <tbody id="tableBody">
-                <!-- سيتم ملء بيانات الجدول ديناميكيًا -->
-            </tbody>
-        </table>
+      <table id="projectsTable" class="w-full mt-6">
+    <thead id="tableHeader" class="bg-green-700 text-white">
+        <!-- سيتم ملء رأس الجدول ديناميكيًا -->
+    </thead>
+    <tbody id="tableBody">
+        <!-- سيتم ملء بيانات الجدول ديناميكيًا -->
+    </tbody>
+</table>
 
         <!-- زر العودة -->
         <button id="backButton" onclick="goBack()" class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
