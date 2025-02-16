@@ -223,10 +223,24 @@
         signInAnonymously(auth).then(updateVisitorCount);
 
         function updateCountdown() {
-            const startDate = new Date("February 17, 2025 00:00:00").getTime();
-            const now = new Date().getTime();
-            const timeLeft = startDate - now;
-            
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(now.getDate() + 1);
+            tomorrow.setHours(8, 0, 0, 0); // 8 صباحًا غدًا
+
+            const dayAfterTomorrow = new Date(now);
+            dayAfterTomorrow.setDate(now.getDate() + 2);
+            dayAfterTomorrow.setHours(13, 0, 0, 0); // 1 ظهرًا بعد الغد
+
+            let timeLeft;
+            if (now < tomorrow) {
+                timeLeft = tomorrow - now;
+            } else if (now < dayAfterTomorrow) {
+                timeLeft = dayAfterTomorrow - now;
+            } else {
+                timeLeft = 0;
+            }
+
             if (timeLeft > 0) {
                 document.getElementById("countdown").innerHTML = `⏳ يبدأ الملتقى خلال: ${formatTime(timeLeft)}`;
             } else {
@@ -349,7 +363,7 @@
         <h3 class="text-3xl font-bold text-green-700 mt-10 text-shadow">  </h3>
         <div class="mt-6">
             <a href="https://www.instagram.com/reel/DGGjSkQswrv/?igsh=Z2JjdHprdWl5ZzI0" target="_blank"
-               class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
+                       class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
                ▶️ <span class="font-bold">شاهد الفيديو على الإنستجرام</span>
             </a>
         </div>
@@ -358,7 +372,7 @@
         <p class="mt-4 text-lg text-gray-700">📞 الهاتف: <a href="tel:91253835" class="text-green-600 hover:text-green-800">91253835</a></p>
         <p class="text-lg text-gray-700">📧 البريد الإلكتروني: <a href="mailto:Ibri@omanchamber.om" class="text-green-600 hover:text-green-800">Ibri@omanchamber.om</a></p>
 
-               <!-- جدول المشاريع والابتكارات -->
+        <!-- جدول المشاريع والابتكارات -->
         <table id="projectsTable" class="w-full mt-6">
             <thead id="tableHeader" class="bg-green-700 text-white">
                 <!-- سيتم ملء رأس الجدول ديناميكيًا -->
