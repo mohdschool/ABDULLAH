@@ -266,52 +266,56 @@ function formatTime(ms) {
 
 setInterval(updateCountdown, 1000);
 window.onload = updateCountdown;
-        function loadProjects() {
-            console.log("جاري تحميل المشاريع...");
-            document.getElementById("projectsTable").innerHTML = "<tr><td colspan='3'>جاري تحميل البيانات...</td></tr>";
-            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQesBz2CFHsK5k9wB5lu6Nt0or_amSXkc4BloP8u0MaMTnYxEDccgGxG6NvjxI8YsbBoDBr3tOy7qUz/pub?gid=0&single=true&output=csv')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("فشل في تحميل البيانات");
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    console.log("تم تحميل البيانات بنجاح");
-                    const rows = data.split("\n").map(row => row.split(","));
-                    const tableHeader = document.getElementById("tableHeader");
-                    const tableBody = document.getElementById("tableBody");
-                    tableHeader.innerHTML = "";
-                    tableBody.innerHTML = "";
+       function loadProjects() {
+    console.log("جاري تحميل المشاريع...");
+    document.getElementById("projectsTable").innerHTML = "<tr><td colspan='3'>جاري تحميل البيانات...</td></tr>";
 
-                    // إنشاء رأس الجدول
-                    rows[0].forEach(header => {
-                        let th = document.createElement("th");
-                        th.textContent = header;
-                        tableHeader.appendChild(th);
-                    });
+    // استخدام CORS Anywhere كوسيط
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQesBz2CFHsK5k9wB5lu6Nt0or_amSXkc4BloP8u0MaMTnYxEDccgGxG6NvjxI8YsbBoDBr3tOy7qUz/pub?gid=0&single=true&output=csv";
 
-                    // إنشاء بيانات الجدول
-                    for (let i = 1; i < rows.length; i++) {
-                        let tr = document.createElement("tr");
-                        rows[i].forEach(cell => {
-                            let td = document.createElement("td");
-                            td.textContent = cell;
-                            tr.appendChild(td);
-                        });
-                        tableBody.appendChild(tr);
-                    }
+    fetch(proxyUrl + sheetUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("فشل في تحميل البيانات");
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log("تم تحميل البيانات بنجاح");
+            const rows = data.split("\n").map(row => row.split(","));
+            const tableHeader = document.getElementById("tableHeader");
+            const tableBody = document.getElementById("tableBody");
+            tableHeader.innerHTML = "";
+            tableBody.innerHTML = "";
 
-                    // إظهار الجدول مع تأثيرات
-                    document.getElementById("projectsTable").classList.add("show");
-                    document.getElementById("backButton").classList.add("show");
-                })
-                .catch(error => {
-                    console.error("حدث خطأ أثناء تحميل البيانات:", error);
-                    alert("حدث خطأ أثناء تحميل البيانات. يرجى المحاولة مرة أخرى.");
+            // إنشاء رأس الجدول
+            rows[0].forEach(header => {
+                let th = document.createElement("th");
+                th.textContent = header;
+                tableHeader.appendChild(th);
+            });
+
+            // إنشاء بيانات الجدول
+            for (let i = 1; i < rows.length; i++) {
+                let tr = document.createElement("tr");
+                rows[i].forEach(cell => {
+                    let td = document.createElement("td");
+                    td.textContent = cell;
+                    tr.appendChild(td);
                 });
-        }
+                tableBody.appendChild(tr);
+            }
 
+            // إظهار الجدول مع تأثيرات
+            document.getElementById("projectsTable").classList.add("show");
+            document.getElementById("backButton").classList.add("show");
+        })
+        .catch(error => {
+            console.error("حدث خطأ أثناء تحميل البيانات:", error);
+            alert("حدث خطأ أثناء تحميل البيانات. يرجى المحاولة مرة أخرى.");
+        });
+}
         function goBack() {
             document.getElementById("projectsTable").classList.remove("show");
             document.getElementById("backButton").classList.remove("show");
@@ -381,14 +385,14 @@ window.onload = updateCountdown;
         <p class="text-lg text-gray-700">📧 البريد الإلكتروني: <a href="mailto:Ibri@omanchamber.om" class="text-green-600 hover:text-green-800">Ibri@omanchamber.om</a></p>
 
         <!-- جدول المشاريع والابتكارات -->
-        <table id="projectsTable" class="w-full mt-6">
-            <thead id="tableHeader" class="bg-green-700 text-white">
-                <!-- سيتم ملء رأس الجدول ديناميكيًا -->
-            </thead>
-            <tbody id="tableBody">
-                <!-- سيتم ملء بيانات الجدول ديناميكيًا -->
-            </tbody>
-        </table>
+      <table id="projectsTable" class="w-full mt-6">
+    <thead id="tableHeader" class="bg-green-700 text-white">
+        <!-- سيتم ملء رأس الجدول ديناميكيًا -->
+    </thead>
+    <tbody id="tableBody">
+        <!-- سيتم ملء بيانات الجدول ديناميكيًا -->
+    </tbody>
+</table>
 
         <!-- زر العودة -->
         <button id="backButton" onclick="goBack()" class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
