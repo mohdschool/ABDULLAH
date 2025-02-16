@@ -221,43 +221,51 @@
         }
 
         signInAnonymously(auth).then(updateVisitorCount);
+function updateCountdown() {
+    const now = new Date();
+    const today8AM = new Date(now);
+    today8AM.setHours(8, 0, 0, 0); // الساعة 8 صباحًا اليوم
 
-        function updateCountdown() {
-            const now = new Date();
-            const tomorrow = new Date(now);
-            tomorrow.setDate(now.getDate() );
-            tomorrow.setHours(8, 0, 0, 0); // 8 اليوم
+    const dayAfterTomorrow1PM = new Date(now);
+    dayAfterTomorrow1PM.setDate(now.getDate() + 2); // بعد غد
+    dayAfterTomorrow1PM.setHours(13, 0, 0, 0); // الساعة 1 ظهرًا بعد الغد
 
-            const dayAfterTomorrow = new Date(now);
-            dayAfterTomorrow.setDate(now.getDate() + 2);
-            dayAfterTomorrow.setHours(13, 0, 0, 0); // 1 ظهرًا بعد الغد
+    let timeLeft;
+    let message;
 
-            let timeLeft;
-            if (now < tomorrow) {
-                timeLeft = tomorrow - now;
-            } else if (now < dayAfterTomorrow) {
-                timeLeft = dayAfterTomorrow - now;
-            } else {
-                timeLeft = 0;
-            }
+    if (now < today8AM) {
+        // العد التنازلي حتى بداية الملتقى
+        timeLeft = today8AM - now;
+        message = `⏳ يبدأ الملتقى خلال: ${formatTime(timeLeft)}`;
+    } else if (now < dayAfterTomorrow1PM) {
+        // العد التنازلي حتى نهاية الملتقى
+        timeLeft = dayAfterTomorrow1PM - now;
+        message = `⏳ الوقت المتبقي للملتقى: ${formatTime(timeLeft)}`;
+    } else {
+        // الملتقى انتهى
+        message = "🎉 الملتقى انتهى! شكرًا لحضوركم.";
+    }
 
-            if (timeLeft > 0) {
-                document.getElementById("countdown").innerHTML = `⏳ يبدأ الملتقى خلال: ${formatTime(timeLeft)}`;
-            } else {
-                document.getElementById("countdown").innerHTML = "🎉 الملتقى مستمر الآن!";
-            }
-        }
+    document.getElementById("countdown").innerHTML = message;
+}
 
-        function formatTime(ms) {
-            const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-            return `${days} يوم و ${hours} ساعة و ${minutes} دقيقة`;
-        }
+function formatTime(ms) {
+    const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((ms % (1000 * 60)) / 1000);
 
-        setInterval(updateCountdown, 1000);
-        window.onload = updateCountdown;
+    let result = "";
+    if (days > 0) result += `${days} يوم `;
+    if (hours > 0) result += `${hours} ساعة `;
+    if (minutes > 0) result += `${minutes} دقيقة `;
+    if (seconds > 0) result += `${seconds} ثانية`;
 
+    return result.trim();
+}
+
+setInterval(updateCountdown, 1000);
+window.onload = updateCountdown;
         function loadProjects() {
             console.log("جاري تحميل المشاريع...");
             document.getElementById("projectsTable").innerHTML = "<tr><td colspan='3'>جاري تحميل البيانات...</td></tr>";
