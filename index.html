@@ -269,57 +269,57 @@
         setInterval(updateCountdown, 1000);
         window.onload = updateCountdown;
 
-        function loadProjects() {
-            console.log("جاري تحميل المشاريع...");
-            document.getElementById("projectsTable").innerHTML = "<tr><td colspan='4'>جاري تحميل البيانات...</td></tr>";
+      function loadProjects() {
+    console.log("جاري تحميل المشاريع...");
+    document.getElementById("projectsTable").innerHTML = "<tr><td colspan='4'>جاري تحميل البيانات...</td></tr>";
 
-            // استخدام CORS Anywhere كوسيط
-            const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-            const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQesBz2CFHsK5k9wB5lu6Nt0or_amSXkc4BloP8u0MaMTnYxEDccgGxG6NvjxI8YsbBoDBr3tOy7qUz/pub?gid=0&single=true&output=csv";
+    // استخدام CORS Anywhere كوسيط
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQesBz2CFHsK5k9wB5lu6Nt0or_amSXkc4BloP8u0MaMTnYxEDccgGxG6NvjxI8YsbBoDBr3tOy7qUz/pub?gid=0&single=true&output=csv";
 
-            fetch(proxyUrl + sheetUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("فشل في تحميل البيانات");
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    console.log("تم تحميل البيانات بنجاح");
-                    const rows = data.split("\n").map(row => row.split(","));
-                    const tableHeader = document.getElementById("tableHeader");
-                    const tableBody = document.getElementById("tableBody");
-                    tableHeader.innerHTML = "";
-                    tableBody.innerHTML = "";
+    fetch(proxyUrl + sheetUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("فشل في تحميل البيانات");
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log("تم تحميل البيانات بنجاح");
+            const rows = data.split("\n").map(row => row.split(","));
+            const tableHeader = document.getElementById("tableHeader");
+            const tableBody = document.getElementById("tableBody");
+            tableHeader.innerHTML = "";
+            tableBody.innerHTML = "";
 
-                    // إنشاء رأس الجدول
-                    const headers = ["اسم المبتكر", "اسم الابتكار", "نوع المشاركة", "أسماء أعضاء الفريق"];
-                    headers.forEach(header => {
-                        let th = document.createElement("th");
-                        th.textContent = header;
-                        tableHeader.appendChild(th);
-                    });
+            // إنشاء رأس الجدول
+            const headers = ["اسم المبتكر", "اسم الابتكار", "نوع المشاركة", "أسماء أعضاء الفريق"];
+            headers.forEach(header => {
+                let th = document.createElement("th");
+                th.textContent = header;
+                tableHeader.appendChild(th);
+            });
 
-                    // إنشاء بيانات الجدول
-                    for (let i = 1; i < rows.length; i++) {
-                        let tr = document.createElement("tr");
-                        rows[i].forEach((cell, index) => {
-                            let td = document.createElement("td");
-                            td.textContent = cell;
-                            tr.appendChild(td);
-                        });
-                        tableBody.appendChild(tr);
-                    }
-
-                    // إظهار الجدول مع تأثيرات
-                    document.getElementById("projectsTable").classList.add("show");
-                    document.getElementById("backButton").classList.add("show");
-                })
-                .catch(error => {
-                    console.error("حدث خطأ أثناء تحميل البيانات:", error);
-                    alert("حدث خطأ أثناء تحميل البيانات. يرجى المحاولة مرة أخرى.");
+            // إنشاء بيانات الجدول
+            for (let i = 1; i < rows.length; i++) {
+                let tr = document.createElement("tr");
+                rows[i].forEach((cell, index) => {
+                    let td = document.createElement("td");
+                    td.textContent = cell;
+                    tr.appendChild(td);
                 });
-        }
+                tableBody.appendChild(tr);
+            }
+
+            // إظهار الجدول مع تأثيرات
+            document.getElementById("projectsTable").classList.add("show");
+            document.getElementById("backButton").classList.add("show");
+        })
+        .catch(error => {
+            console.error("حدث خطأ أثناء تحميل البيانات:", error);
+            alert("حدث خطأ أثناء تحميل البيانات. يرجى المحاولة مرة أخرى.");
+        });
+}
 
         function goBack() {
             document.getElementById("projectsTable").classList.remove("show");
