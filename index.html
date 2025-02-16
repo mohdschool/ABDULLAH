@@ -225,8 +225,8 @@
         function updateCountdown() {
             const now = new Date();
             const tomorrow = new Date(now);
-            tomorrow.setDate(now.getDate() + 1);
-            tomorrow.setHours(8, 0, 0, 0); // 8 صباحًا غدًا
+            tomorrow.setDate(now.getDate() );
+            tomorrow.setHours(8, 0, 0, 0); // 8 اليوم
 
             const dayAfterTomorrow = new Date(now);
             dayAfterTomorrow.setDate(now.getDate() + 2);
