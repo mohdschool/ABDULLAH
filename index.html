@@ -192,58 +192,7 @@
             transform: translateY(0);
         }
     </style>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-        import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAn0OJ2M_cAFuHcNGGwW6NPZ_pYGL1-C-8",
-            authDomain: "innovation-2025.firebaseapp.com",
-            databaseURL: "https://innovation-2025-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "innovation-2025",
-            storageBucket: "innovation-2025.firebasestorage.app",
-            messagingSenderId: "857079175824",
-            appId: "1:857079175824:web:2e4cbda95005448a42d615"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase();
-        const auth = getAuth();
-
-        function updateVisitorCount() {
-            const countRef = ref(db, "visitorCount");
-            get(countRef).then(snapshot => {
-                let count = snapshot.exists() ? snapshot.val() + 1 : 1;
-                set(countRef, count);
-                document.getElementById("visitor-counter").innerText = `👥 عدد زوار الموقع: ${count}`;
-            });
-        }
-
-        signInAnonymously(auth).then(updateVisitorCount);
-
-        function updateCountdown() {
-            const startDate = new Date("February 17, 2025 00:00:00").getTime();
-            const now = new Date().getTime();
-            const timeLeft = startDate - now;
-            
-            if (timeLeft > 0) {
-                document.getElementById("countdown").innerHTML = `⏳ يبدأ الملتقى خلال: ${formatTime(timeLeft)}`;
-            } else {
-                document.getElementById("countdown").innerHTML = "🎉 الملتقى مستمر الآن!";
-            }
-        }
-
-        function formatTime(ms) {
-            const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((ms % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-            return `${days} يوم و ${hours} ساعة و ${minutes} دقيقة`;
-        }
-
-        setInterval(updateCountdown, 1000);
-        window.onload = updateCountdown;
-
+    <script>
         function loadProjects() {
             console.log("جاري تحميل المشاريع...");
             document.getElementById("projectsTable").innerHTML = "<tr><td colspan='3'>جاري تحميل البيانات...</td></tr>";
@@ -358,7 +307,7 @@
         <p class="mt-4 text-lg text-gray-700">📞 الهاتف: <a href="tel:91253835" class="text-green-600 hover:text-green-800">91253835</a></p>
         <p class="text-lg text-gray-700">📧 البريد الإلكتروني: <a href="mailto:Ibri@omanchamber.om" class="text-green-600 hover:text-green-800">Ibri@omanchamber.om</a></p>
 
-               <!-- جدول المشاريع والابتكارات -->
+        <!-- جدول المشاريع والابتكارات -->
         <table id="projectsTable" class="w-full mt-6">
             <thead id="tableHeader" class="bg-green-700 text-white">
                 <!-- سيتم ملء رأس الجدول ديناميكيًا -->
