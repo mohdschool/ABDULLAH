@@ -266,9 +266,9 @@ function formatTime(ms) {
 
 setInterval(updateCountdown, 1000);
 window.onload = updateCountdown;
-       function loadProjects() {
+     function loadProjects() {
     console.log("جاري تحميل المشاريع...");
-    document.getElementById("projectsTable").innerHTML = "<tr><td colspan='3'>جاري تحميل البيانات...</td></tr>";
+    document.getElementById("projectsTable").innerHTML = "<tr><td colspan='4'>جاري تحميل البيانات...</td></tr>";
 
     // استخدام CORS Anywhere كوسيط
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -290,7 +290,8 @@ window.onload = updateCountdown;
             tableBody.innerHTML = "";
 
             // إنشاء رأس الجدول
-            rows[0].forEach(header => {
+            const headers = ["اسم المبتكر", "اسم الابتكار", "نوع المشاركة", "أسماء أعضاء الفريق"];
+            headers.forEach(header => {
                 let th = document.createElement("th");
                 th.textContent = header;
                 tableHeader.appendChild(th);
@@ -299,7 +300,7 @@ window.onload = updateCountdown;
             // إنشاء بيانات الجدول
             for (let i = 1; i < rows.length; i++) {
                 let tr = document.createElement("tr");
-                rows[i].forEach(cell => {
+                rows[i].forEach((cell, index) => {
                     let td = document.createElement("td");
                     td.textContent = cell;
                     tr.appendChild(td);
