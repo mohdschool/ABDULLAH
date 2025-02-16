@@ -149,6 +149,29 @@
                 font-size: 1rem;
             }
         }
+
+        /* تنسيق الجدول */
+        #projectsTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            display: none;
+        }
+        #projectsTable th, #projectsTable td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        #projectsTable th {
+            background-color: #2E7D32;
+            color: white;
+        }
+        #projectsTable tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        #projectsTable tr:hover {
+            background-color: #ddd;
+        }
     </style>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
@@ -201,6 +224,45 @@
 
         setInterval(updateCountdown, 1000);
         window.onload = updateCountdown;
+
+        function loadProjects() {
+            fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQesBz2CFHsK5k9wB5lu6Nt0or_amSXkc4BloP8u0MaMTnYxEDccgGxG6NvjxI8YsbBoDBr3tOy7qUz/pub?gid=0&single=true&output=csv')
+                .then(response => response.text())
+                .then(data => {
+                    const rows = data.split("\n").map(row => row.split(","));
+                    const tableHeader = document.getElementById("tableHeader");
+                    const tableBody = document.getElementById("tableBody");
+                    tableHeader.innerHTML = "";
+                    tableBody.innerHTML = "";
+
+                    // إنشاء رأس الجدول
+                    rows[0].forEach(header => {
+                        let th = document.createElement("th");
+                        th.textContent = header;
+                        tableHeader.appendChild(th);
+                    });
+
+                    // إنشاء بيانات الجدول
+                    for (let i = 1; i < rows.length; i++) {
+                        let tr = document.createElement("tr");
+                        rows[i].forEach(cell => {
+                            let td = document.createElement("td");
+                            td.textContent = cell;
+                            tr.appendChild(td);
+                        });
+                        tableBody.appendChild(tr);
+                    }
+
+                    document.getElementById("projectsTable").style.display = "table";
+                    document.getElementById("backButton").style.display = "block";
+                })
+                .catch(error => console.error("Error fetching data:", error));
+        }
+
+        function goBack() {
+            document.getElementById("projectsTable").style.display = "none";
+            document.getElementById("backButton").style.display = "none";
+        }
     </script>
 </head>
 <body class="text-gray-900">
@@ -221,9 +283,12 @@
         <p id="countdown" class="countdown"></p>
         <p id="visitor-counter" class="visitor-counter"></p>
 
-        <!-- العبارة التشويقية -->
+        <!-- العبارة التشويقية المحسنة -->
         <p class="mt-6 text-2xl font-bold text-green-700 text-shadow">
-            🎉 لا تفوت الفرصة! سجل حضورك وادخل السحب على <span class="text-brown-800">3 جوائز قيمة</span> قيمة كل جائزة <span class="text-brown-800">50 ريال عماني</span>!
+            🎉 **لا تفوت الفرصة!** سجل حضورك الآن وادخل السحب على جوائز قيّمة! 🏆
+        </p>
+        <p class="mt-4 text-lg text-gray-700">
+            **3 جوائز قيمة** تنتظر الفائزين، قيمة كل جائزة **50 ريال عماني**! 🤑
         </p>
 
         <!-- زر التسجيل -->
@@ -234,22 +299,48 @@
             </a>
         </div>
 
-        <!-- زر الموقع -->
+        <!-- زر المشاريع والابتكارات -->
         <div class="mt-8">
-            <a href="https://www.google.com/maps/dir//23.2261,56.5123" target="_blank" 
+            <button onclick="loadProjects()"
                class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
-               📍اضغط هنا لرؤية موقع الملتقى
+               📂 <span class="font-bold">عرض المشاريع والابتكارات</span>
+            </button>
+        </div>
+
+        <!-- زر الموقع الدقيق -->
+        <div class="mt-8">
+            <a href="https://www.google.com/maps/place/%D9%82%D8%A7%D8%B9%D8%A9+%D8%A7%D9%84%D9%85%D9%87%D9%84%D8%A8+%D8%A8%D9%86+%D8%A3%D8%A8%D9%8A+%D8%B5%D9%81%D8%B1%D8%A9%E2%80%AD/@23.2261,56.5123,17z/data=!3m1!4b1!4m6!3m5!1s0x3e1f1b3b3b3b3b3b:0x3e1f1b3b3b3b3b3b!8m2!3d23.2261!4d56.5123!16s%2Fg%2F11b8z8z8z8?entry=ttu" target="_blank" 
+               class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
+               📍 اضغط هنا لرؤية موقع الملتقى - قاعة المهلب بن أبي صفرة، عبري
             </a>
         </div>
 
         <h3 class="text-3xl font-bold text-green-700 mt-10 text-shadow">🎥 فيديوهات الملتقى</h3>
-        <video controls class="w-full mt-6 rounded-lg shadow-lg hover-effect">
-            <source src="https://c.top4top.io/m_33304x3251.mp4" type="video/mp4">
-        </video>
+        <div class="mt-6">
+            <a href="https://www.instagram.com/reel/DGGjSkQswrv/?igsh=Z2JjdHprdWl5ZzI0" target="_blank"
+               class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect">
+               ▶️ <span class="font-bold">شاهد الفيديو على الإنستجرام</span>
+            </a>
+        </div>
 
         <h3 class="text-2xl font-bold text-green-700 mt-10 text-shadow">📞 تواصل معنا</h3>
         <p class="mt-4 text-lg text-gray-700">📞 الهاتف: <a href="tel:91253835" class="text-green-600 hover:text-green-800">91253835</a></p>
         <p class="text-lg text-gray-700">📧 البريد الإلكتروني: <a href="mailto:Ibri@omanchamber.om" class="text-green-600 hover:text-green-800">Ibri@omanchamber.om</a></p>
+
+                <!-- جدول المشاريع والابتكارات -->
+        <table id="projectsTable" class="w-full mt-6">
+            <thead id="tableHeader" class="bg-green-700 text-white">
+                <!-- سيتم ملء رأس الجدول ديناميكيًا -->
+            </thead>
+            <tbody id="tableBody">
+                <!-- سيتم ملء بيانات الجدول ديناميكيًا -->
+            </tbody>
+        </table>
+
+        <!-- زر العودة -->
+        <button id="backButton" onclick="goBack()" class="mt-6 gradient-button text-white py-3 px-6 rounded-lg text-lg font-semibold shadow-md transition-transform transform hover:scale-105 hover-effect" style="display: none;">
+            ↩️ <span class="font-bold">عودة إلى الصفحة الرئيسية</span>
+        </button>
     </div>
 </body>
 </html>
