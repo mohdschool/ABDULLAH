@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إبداعات معلمي مدرسة محمد بن سليمان</title>
+    <title> إبداعات معلمي مدرسة محمد بن سليمان الغافري</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #3498db;
@@ -12,42 +13,85 @@
             --accent-color: #e74c3c;
             --light-color: #ecf0f1;
             --dark-color: #2c3e50;
+            --gold-color: #FFD700;
         }
         
         body {
-            font-family: 'Tajawal', Arial, sans-serif;
+            font-family: 'Tajawal', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e6e9f0 100%);
             color: var(--dark-color);
-            line-height: 1.6;
+            line-height: 1.8;
         }
         
-        @font-face {
-            font-family: 'Tajawal';
-            src: url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
-        }
-        
+        /* الهيدر الجديد المضيء */
         header {
-            background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #1a2a3a 100%);
             color: white;
-            padding: 30px 20px;
+            padding: 40px 20px;
             text-align: center;
             position: relative;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shine 8s infinite linear;
+        }
+        
+        @keyframes shine {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
         }
         
         .logo {
-            max-width: 120px;
-            margin-bottom: 15px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
+            border: 5px solid var(--gold-color);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5),
+                        0 0 50px rgba(255, 215, 0, 0.3);
+            transition: all 0.5s;
+            object-fit: cover;
+            background: white;
+            padding: 5px;
         }
         
         .logo:hover {
-            transform: rotate(10deg) scale(1.05);
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.8),
+                        0 0 60px rgba(255, 215, 0, 0.5);
+        }
+        
+        .logo-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, transparent 70%);
+            animation: pulse 3s infinite alternate;
+            z-index: -1;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            100% { transform: scale(1.1); opacity: 0.3; }
         }
         
         .back-btn {
@@ -55,63 +99,112 @@
             left: 20px;
             top: 50%;
             transform: translateY(-50%);
-            background-color: var(--light-color);
-            color: var(--primary-color);
-            padding: 8px 15px;
+            background-color: rgba(255,255,255,0.2);
+            backdrop-filter: blur(5px);
+            color: white;
+            padding: 12px 20px;
             border-radius: 30px;
             text-decoration: none;
             font-weight: bold;
             display: flex;
             align-items: center;
             transition: all 0.3s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            z-index: 1;
         }
         
         .back-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
+            background-color: var(--gold-color);
+            color: var(--secondary-color);
             transform: translateY(-50%) scale(1.05);
         }
         
         .back-btn i {
-            margin-right: 5px;
+            margin-right: 8px;
         }
         
         h1 {
+            margin: 15px 0 10px;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            display: inline-block;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--gold-color);
+            border-radius: 3px;
+        }
+        
+        .vision-statement {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vision-statement::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                      transparent 0%, 
+                      rgba(255,255,255,0.1) 50%, 
+                      transparent 100%);
+            animation: shimmer 8s infinite linear;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .vision-statement p {
             margin: 0;
-            font-size: 2.2rem;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            font-size: 1.2rem;
+            line-height: 1.8;
+            position: relative;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
         }
         
-        .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            margin-top: 10px;
-        }
-        
+        /* بقية العناصر (كما هي في الكود السابق مع تحسينات) */
         .container {
             max-width: 1200px;
-            margin: 40px auto;
+            margin: 50px auto;
             padding: 0 20px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
         
         .teacher-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            padding: 25px;
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(240,240,240,0.9) 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            border-top: 4px solid var(--primary-color);
-        }
-        
-        .teacher-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+            border-top: 5px solid var(--primary-color);
+            z-index: 1;
         }
         
         .teacher-card::before {
@@ -122,19 +215,31 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, rgba(52,152,219,0.1) 0%, rgba(231,76,60,0.05) 100%);
-            z-index: 0;
+            z-index: -1;
+        }
+        
+        .teacher-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
         }
         
         .teacher-card h2 {
             color: var(--secondary-color);
             margin-top: 0;
-            position: relative;
-            padding-bottom: 10px;
-            border-bottom: 2px dashed #eee;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            font-weight: 700;
+        }
+        
+        .teacher-title {
+            color: var(--accent-color);
+            font-weight: bold;
+            margin: 10px 0;
+            display: block;
+            font-size: 1.1rem;
         }
         
         .teacher-card p {
-            position: relative;
             color: #555;
             margin-bottom: 25px;
         }
@@ -145,94 +250,98 @@
             justify-content: center;
             background: linear-gradient(to right, var(--primary-color), #2980b9);
             color: white;
-            padding: 12px 20px;
+            padding: 14px 25px;
             text-decoration: none;
-            border-radius: 30px;
-            margin-top: 15px;
+            border-radius: 50px;
+            margin-top: 20px;
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
             font-weight: bold;
-            box-shadow: 0 4px 8px rgba(52,152,219,0.3);
+            box-shadow: 0 5px 15px rgba(52,152,219,0.4);
             border: none;
             cursor: pointer;
+            z-index: 1;
         }
         
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(52,152,219,0.4);
-        }
-        
-        .btn::after {
+        .btn::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0.2), rgba(255,255,255,0));
-            transform: translateX(-100%);
-            transition: transform 0.3s;
+            background: linear-gradient(to right, #2980b9, var(--primary-color));
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
         }
         
-        .btn:hover::after {
-            transform: translateX(100%);
+        .btn:hover::before {
+            opacity: 1;
         }
         
-        .btn i {
-            margin-left: 8px;
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52,152,219,0.6);
         }
         
         .teacher-icon {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         footer {
             background: linear-gradient(to right, var(--secondary-color), var(--dark-color));
             color: white;
             text-align: center;
-            padding: 25px;
-            margin-top: 50px;
-            font-size: 0.9rem;
+            padding: 40px 20px;
+            margin-top: 80px;
+            position: relative;
         }
         
-        .social-icons {
-            margin-top: 15px;
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="%232c3e50" opacity=".25"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="%232c3e50" opacity=".5"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%232c3e50"/></svg>');
+            background-size: cover;
         }
         
-        .social-icons a {
-            color: white;
-            margin: 0 10px;
+        .pride-statement {
+            max-width: 800px;
+            margin: 0 auto 30px;
             font-size: 1.2rem;
-            transition: transform 0.3s;
-            display: inline-block;
-        }
-        
-        .social-icons a:hover {
-            transform: translateY(-5px) scale(1.2);
-            color: var(--primary-color);
+            line-height: 1.8;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid var(--gold-color);
         }
         
         @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr;
+            header {
+                padding: 30px 15px;
             }
             
             .back-btn {
                 position: static;
                 transform: none;
-                margin-bottom: 15px;
+                margin-bottom: 20px;
                 display: inline-flex;
             }
             
-            header {
-                padding: 25px 15px;
+            h1 {
+                font-size: 2rem;
             }
             
-            h1 {
-                font-size: 1.8rem;
+            .vision-statement p {
+                font-size: 1rem;
             }
         }
     </style>
@@ -242,9 +351,21 @@
         <a href="https://mohdschool.github.io/platform/" class="back-btn">
             <i class="fas fa-arrow-left"></i> العودة للمنصة الرئيسية
         </a>
-        <img src="https://j.top4top.io/p_3327lje811.jpg" alt="شعار مدرسة محمد بن سليمان" class="logo">
+        
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <img src="https://j.top4top.io/p_3327lje811.jpg" alt="شعار مدرسة محمد بن سليمان" class="logo">
+        </div>
+        
         <h1>إبداعات معلمي مدرسة محمد بن سليمان</h1>
-        <p class="subtitle">نافذة على إبداعات كوادرنا التعليمية المتميزة</p>
+        
+        <div class="vision-statement">
+            <p>
+                "نعتز بكوادرنا التعليمية المتميزة الذين يصنعون مستقبلاً مشرقاً بأفكارهم الإبداعية، 
+                ونسعى إلى إبراز إنجازاتهم كمصدر إلهام للأجيال. هذه المنصة تعكس روح التميز والابتكار 
+                التي تجسدها عطاءات معلمينا الأفاضل"
+            </p>
+        </div>
     </header>
 
     <div class="container">
@@ -253,8 +374,8 @@
                 <i class="fas fa-square-root-alt"></i>
             </div>
             <h2>قناة عدنان عبقري الرياضيات</h2>
-            <p>الأستاذ: درويش الغافري</p>
-            <p>منصة تعليمية متخصصة في الرياضيات تقدم شروحات وأساليب إبداعية لتعليم الرياضيات بطريقة ممتعة وسهلة الفهم</p>
+            <span class="teacher-title">الأستاذ: درويش الغافري</span>
+            <p>منصة تعليمية متخصصة في الرياضيات تقدم شروحات إبداعية وأساليب تعليمية مبتكرة تجعل الرياضيات سهلة وممتعة للطلاب بمختلف مستوياتهم.</p>
             <a href="https://storage2.me-qr.com/pdf/73fd7bd9-6728-4481-8ffa-e67524ddd736.pdf" class="btn">
                 زيارة القناة <i class="fas fa-external-link-alt"></i>
             </a>
@@ -265,8 +386,8 @@
                 <i class="fas fa-book-open"></i>
             </div>
             <h2>منصة مدار</h2>
-            <p>الأستاذ: محمد العبري</p>
-            <p>منصة تعليمية متعددة التخصصات تقدم محتوى تعليمي متنوع يشمل جميع المواد الدراسية بأساليب مبتكرة</p>
+            <span class="teacher-title">الأستاذ: محمد العبري</span>
+            <p>بوابة تعليمية شاملة تقدم محتوى متعدد التخصصات بأسلوب تفاعلي جذاب، مع التركيز على تنمية المهارات العقلية والتفكير النقدي لدى الطلاب.</p>
             <a href="https://sites.google.com/u/1/d/1L3mmqLoqW0pqtyAx8jHduT13myFE0ei7/preview" class="btn">
                 زيارة المنصة <i class="fas fa-external-link-alt"></i>
             </a>
@@ -277,8 +398,8 @@
                 <i class="fas fa-atom"></i>
             </div>
             <h2>نادي الفيزياء</h2>
-            <p>الأستاذ: سليم اليعقوبي</p>
-            <p>موقع تعليمي متخصص في الفيزياء يقدم التجارب والنظريات الفيزيائية بطريقة مبسطة مع تطبيقات عملية من الحياة اليومية</p>
+            <span class="teacher-title">الأستاذ: سليم اليعقوبي</span>
+            <p>واحة علمية تقدم الفيزياء بطريقة عملية ممتعة، مع تجارب تفاعلية ونظريات تطبيقية تربط بين العلم والحياة اليومية للطلاب.</p>
             <a href="https://mohamed-school-alfezya.netlify.app/" class="btn">
                 زيارة النادي <i class="fas fa-external-link-alt"></i>
             </a>
@@ -289,8 +410,8 @@
                 <i class="fas fa-robot"></i>
             </div>
             <h2>منصة الذكاء الاصطناعي</h2>
-            <p>الأستاذ: هلال البحري</p>
-            <p>منصة تعليمية متقدمة تقدم مفاهيم الذكاء الاصطناعي وتطبيقاته في التعليم مع أمثلة عملية وتجارب تفاعلية</p>
+            <span class="teacher-title">الأستاذ: هلال البحري</span>
+            <p>نافذة على المستقبل تقدم مفاهيم الذكاء الاصطناعي وتطبيقاته التعليمية، مع أمثلة عملية وتجارب تفاعلية تعد الطلاب لعصر التكنولوجيا المتقدمة.</p>
             <a href="https://sites.google.com/edu.moe.om/dkt/%D8%A7%D9%84%D8%B5%D9%81%D8%AD%D8%A9-%D8%A7%D9%84%D8%B1%D8%A6%D9%8A%D8%B3%D9%8A%D8%A9" class="btn">
                 زيارة المنصة <i class="fas fa-external-link-alt"></i>
             </a>
@@ -298,7 +419,14 @@
     </div>
 
     <footer>
-        <p>جميع الحقوق محفوظة &copy; مدرسة محمد بن سليمان <span id="year"></span></p>
+        <div class="pride-statement">
+            <i class="fas fa-quote-left" style="color: var(--gold-color); margin-left: 10px;"></i>
+            نفتخر بمعلمينا الذين هم أساس التميز وعماد المستقبل، إبداعاتهم شعلة تنير دروب المعرفة
+            <i class="fas fa-quote-right" style="color: var(--gold-color); margin-right: 10px;"></i>
+        </div>
+        
+        <p>جميع الحقوق محفوظة &copy; مدرسة محمد بن سليمان الغافري <span id="year"></span></p>
+        
         <div class="social-icons">
             <a href="#"><i class="fab fa-twitter"></i></a>
             <a href="#"><i class="fab fa-instagram"></i></a>
@@ -311,14 +439,18 @@
         // إضافة السنة الحالية تلقائياً
         document.getElementById('year').textContent = new Date().getFullYear();
         
-        // تأثيرات إضافية عند التحميل
+        // تأثيرات دخول البطاقات
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.teacher-card');
             cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = 'all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) ' + (index * 0.1) + 's';
+                
                 setTimeout(() => {
                     card.style.opacity = '1';
                     card.style.transform = 'translateY(0)';
-                }, 100 * index);
+                }, 100);
             });
         });
     </script>
